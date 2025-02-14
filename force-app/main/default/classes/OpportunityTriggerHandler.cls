@@ -4,7 +4,7 @@ public with sharing class OpportunityTriggerHandler{
 
         // Identifier les opps qui viennent de passer en Closed - Won
         List<Opportunity> oppsClosed = new List<Opportunity>(); 
-        for(Opportunity opp : opps)
+        for(Opportunity opp : opps){
             Opportunity oldOpp = oldOppMap.get(opp.Id);
             if(opp.Stagename == 'Closed Won' && oldOpp.StageName != opp.Stagename){
                 oppsClosed.add(opp);
@@ -31,6 +31,7 @@ public with sharing class OpportunityTriggerHandler{
                 Account__c = o.AccountId,
                 Opportunity__c = o.Id
                 );
+
                 ListTripsToCreate.add(newTrip);
         }
 
@@ -44,5 +45,4 @@ public with sharing class OpportunityTriggerHandler{
         }
         
     }
-
 }
