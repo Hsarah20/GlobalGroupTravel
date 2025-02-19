@@ -17,7 +17,7 @@ public with sharing class CancelTripsBatch implements Database.Batchable<SObject
     }
 
     public void finish(Database.BatchableContext bc) {
-        System.debug('Batch Status Trip est terminé avec succès !');
+        System.debug('Batch Cancel Trip est terminé avec succès !');
 
     }
 }
