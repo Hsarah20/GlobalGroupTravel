@@ -1,7 +1,7 @@
 public with sharing class UpdateStatusTripsBatch implements Database.Batchable<SObject> {
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-         'SELECT Id, Status__c,Start_Date__c,End_Date__c  FROM Trip__c'
+         'SELECT Id, Status__c,Start_Date__c,End_Date__c  FROM Trip__c WHERE Status__c != \'Annulé\' '
         );
     }
         

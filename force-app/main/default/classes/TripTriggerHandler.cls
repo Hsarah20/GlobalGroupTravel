@@ -8,9 +8,7 @@ public with sharing class TripTriggerHandler{
             }
             if (trip.End_Date__c <= trip.Start_Date__c) {
                 trip.addError('La date de fin doit être supérieure à la date de début.');
-            }
-            
+            }  
         }
-     
     }
 }

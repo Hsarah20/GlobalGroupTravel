@@ -4,7 +4,7 @@ public with sharing class AccountController {
     @AuraEnabled(cacheable=true)
     public static List<Account> getAccounts() {
         try {
-            return [SELECT Id, Name, Phone, Email__c, Industry, Type 
+            return [SELECT Id, Name, Phone, Industry, Type 
                     FROM Account 
                     WHERE IsDeleted = false];
         } catch (Exception e) {

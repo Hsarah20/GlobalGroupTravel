@@ -22,19 +22,24 @@ public with sharing class OpportunityTriggerHandler{
 
             // Creation de Trip
             Trip__c newTrip = new Trip__c(                
-                Destination__c = o.Destination__c,
-                Start_Date__c = o.Start_Date__c,
-                End_Date__c = o.End_Date__c,
+                Destination__c = o.Destination__c,                
                 Status__c = 'A venir',
                 Number_of_Participants__c=o.Number_of_Participants__c,
-                Total_Cost__c= o.Amount,
                 Account__c = o.AccountId,
                 Opportunity__c = o.Id
-                );
-
+            );
+            
+            if (o.Start_Date__c < System.today()) {
+                o.addError('La date de début doit être supérieure ou égale à aujourd\'hui.');
+            }else if(o.End_Date__c <= o.Start_Date__c) {
+                o.addError('La date de fin doit être supérieure à la date de début.');
+            }else{
+                newTrip.Start_Date__c = o.Start_Date__c;
+                newTrip.End_Date__c = o.End_Date__c;
                 ListTripsToCreate.add(newTrip);
+            }
+    
         }
-
         if (!ListTripsToCreate.isEmpty()) {
             try {
                 insert ListTripsToCreate;
