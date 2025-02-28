@@ -1,6 +1,5 @@
 public with sharing class TripController {
   
-    @AuraEnabled(cacheable=true)
     public static List<Trip__c> getTrips() {
         try {
             return [SELECT Id, Name, Destination__c, Start_Date__c, End_Date__c, 
@@ -12,18 +11,16 @@ public with sharing class TripController {
     }
 
     // Create a new trip
-    @AuraEnabled
     public static Trip__c createTrip(Trip__c newTrip) {
         try {
             insert newTrip;
             return newTrip;
         } catch (DmlException e) {
-            throw new AuraHandledException('Erreur lors de la création du voyage : ' + e.getMessage());
+            throw new TripException('Erreur lors de la création du voyage : ' + e.getMessage());
         }
     }
 
     // Update a trip
-    @AuraEnabled
     public static Trip__c updateTrip(Trip__c updatedTrip) {
         try {
             update updatedTrip;
@@ -34,7 +31,6 @@ public with sharing class TripController {
     }
 
     // Delete a trip
-    @AuraEnabled
     public static void deleteTrip(Id tripId) {
         try {
             Trip__c tripToDelete = [SELECT Id FROM Trip__c WHERE Id = :tripId LIMIT 1];
@@ -42,5 +38,8 @@ public with sharing class TripController {
         } catch (DmlException e) {
             throw new AuraHandledException('Erreur lors de la suppression du voyage : ' + e.getMessage());
         }
+    }
+    public class TripException extends Exception {
+        
     }
 }

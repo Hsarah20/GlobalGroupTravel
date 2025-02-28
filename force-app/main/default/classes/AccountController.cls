@@ -1,7 +1,6 @@
 public with sharing class AccountController {
 
     //Get a list of Accounts
-    @AuraEnabled(cacheable=true)
     public static List<Account> getAccounts() {
         try {
             return [SELECT Id, Name, Phone, Industry, Type 
@@ -12,8 +11,7 @@ public with sharing class AccountController {
         }
     }
 
-    //Create a new account
-    @AuraEnabled
+  
     public static Account createAccount(Account newAccount) {
         try {
             insert newAccount;
@@ -24,7 +22,6 @@ public with sharing class AccountController {
     }
 
     //Update Account
-    @AuraEnabled
     public static Account updateAccount(Account updatedAccount) {
         try {
             update updatedAccount;
@@ -34,7 +31,6 @@ public with sharing class AccountController {
         }
     }
     //Delete Account
-    @AuraEnabled
     public static void deleteAccount(Id accountId) {
         try {
             Account accountToDelete = [SELECT Id FROM Account WHERE Id = :accountId LIMIT 1];
