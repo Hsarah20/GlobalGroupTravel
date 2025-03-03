@@ -1,7 +1,5 @@
 public with sharing class OpportunityController {
     
-    
-    @AuraEnabled(cacheable=true)
     public static List<Opportunity> getOpportunities() {
         try {
             return [SELECT Id, Name, StageName, Amount, CloseDate, AccountId, OwnerId,Start_Date__c,End_Date__c,Destination__c,Number_of_Participants__c
@@ -12,7 +10,6 @@ public with sharing class OpportunityController {
         }
     }
 
-    @AuraEnabled
     public static Opportunity createOpportunity(Opportunity newOpportunity) {
         try {
             insert newOpportunity;
@@ -22,7 +19,6 @@ public with sharing class OpportunityController {
         }
     }
 
-    @AuraEnabled
     public static Opportunity updateOpportunity(Opportunity updatedOpportunity) {
         try {
             update updatedOpportunity;
@@ -32,17 +28,19 @@ public with sharing class OpportunityController {
         }
     }
 
-    @AuraEnabled
     public static void deleteOpportunity(Id opportunityId) {
         try {
             Opportunity oppToDelete = [SELECT Id, IsClosed FROM Opportunity WHERE Id = :opportunityId LIMIT 1];
             if (oppToDelete.IsClosed) {
-                throw new AuraHandledException('Impossible de supprimer une opportunité fermée.');
+                throw new OpportunityException('Impossible de supprimer une opportunité fermée.');
             }
             delete oppToDelete;
         } catch (DmlException e) {
-            throw new AuraHandledException('Erreur lors de la suppression de l\'opportunité : ' + e.getMessage());
+            throw new OpportunityException('Erreur lors de la suppression de l\'opportunité : ' + e.getMessage());
         }
+    }
+    public class OpportunityException extends Exception {
+        
     }
 
 }

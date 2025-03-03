@@ -87,4 +87,23 @@ public with sharing class OpportunityControllerTest {
         System.assertEquals(count, 0, 'L\'opportunité doit être supprimée');
     }
 
+    @isTest
+    public static void testDeleteClosedOpportunity() {
+        Opportunity closedOpp = createTestOpportunity('Closed Opportunity', true);
+
+        Test.startTest();
+        Boolean exceptionThrown = false;
+        try {
+            OpportunityController.deleteOpportunity(closedOpp.Id);
+            System.assert(false, 'Une exception aurait dû être levée pour une opportunité fermée');
+        } catch (Exception e) {
+            exceptionThrown = true;
+            System.assert(e.getMessage().contains('Impossible de supprimer une opportunité fermée.'), 
+                'Le message d\'erreur retourné ne correspond pas à l\'attendu.');
+        }
+        Test.stopTest();
+        
+          // Vérification qu'une exception a bien été levée
+          System.assert(exceptionThrown, 'Une exception aurait dû être levée pour une opportunité fermée.');
+    }
 }

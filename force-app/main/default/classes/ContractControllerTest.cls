@@ -85,8 +85,6 @@ public with sharing class ContractControllerTest {
             ContractController.deleteContract(activatedContract.Id);
         } catch (Exception e) {
             exceptionThrown = true;
-            System.debug('CCCCCC  ' + e.getMessage().contains('Impossible de supprimer un contrat actif.'));
-            System.debug('CCCCCC22  ' + e.getMessage());
             System.assert(e.getMessage().contains('Impossible de supprimer un contrat actif.'), 
                 'Le message d\'erreur retourné ne correspond pas à l\'attendu.');
         }
